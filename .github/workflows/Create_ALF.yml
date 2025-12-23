@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        unity-tag: [windows-6000.2.13f1-android-3.2.1] # ← ここは docker image のバージョン。自分のプロジェクトのバージョンに合わせて
+        unity-tag: [6000.2.13f1-mac-mono-3.2] # ← ここは docker image のバージョン。自分のプロジェクトのバージョンに合わせて
 
     container: docker://unityci/editor:${{ matrix.unity-tag }}
 
