@@ -1,0 +1,24 @@
+name: Create ALF File
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        unity-tag: [windows-6000.2.13f1-android-3.2.1] # ← ここは docker image のバージョン。自分のプロジェクトのバージョンに合わせて
+
+    container: docker://unityci/editor:${{ matrix.unity-tag }}
+
+    steps:
+    - run: mkdir artifact
+    - run: /opt/unity/Editor/Unity -quit -batchmode -nographics -logfile -createManualActivationFile || exit 0
+    - run: cp "Unity_v$UNITY_VERSION.alf" artifact
+      env:
+        UNITY_VERSION: 6000.2.13f1 # ← ここはUnityのバージョンだけ
+    - uses: actions/upload-artifact@master
+      with:
+        name: ${{ matrix.unity-tag }}
+        path: artifact
